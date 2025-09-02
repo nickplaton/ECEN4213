@@ -31,7 +31,8 @@ int mode = 0;
 //Specific a certain rotation angle (0-180) for the servo
 void servoWrite(int pin, int angle){ 
     long time = 0;
-    time = 10 * (0.5 + angle/90); /* map the desired angle to time*/
+    time = 10 * (0.5 + double(angle)/90); /* map the desired angle to time*/
+    cout<<"time is "<<time<<endl;
     softPwmWrite(pin,time);   
 }
 
@@ -63,6 +64,7 @@ void press_button()
 {
     if (mode == 0) mode++;
     else mode = 0;
+    //cout<<"Changed to mode: "<<mode<<endl;
 }
 
 
@@ -83,16 +85,29 @@ int main(void)
 
         /* read ADS1015 value */
         int reading = adcVal();
-        cout<<reading<<endl;
+        // segmenting
+        reading += 2048;
+        if (reading >= 4096) reading -= 4096;
+        //cout<<reading<<endl;
         /* convert the obtained ADS1015 value to angle 0 - 180*/
         int angle = 0;
-        if (mode == 0) angle = reading * 180/4096;
-        else angle = 180 - (reading * 180/4096);
-
+        angle = reading * 180/4096;
+        angle = int((float(angle) - 74)/106 * 180);
+        if (mode == 1){
+            angle = 180 - angle;
+        }
+        // adjust angle to minimum 74 from 0V
         /* use the angle to control the servo motor*/
+        //cout<<angle<<endl;
         servoWrite(servoPin, angle);
 
-        usleep(100000);
+        // Clear terminal and print out information
+        printf("\033c");
+        cout<<"Mode: "<<mode<<endl;
+        cout<<"Reading: "<<reading<<endl;
+        cout<<"Angle: "<<angle<<endl;
+
+        usleep(10000);
     }
     return 0;
 }

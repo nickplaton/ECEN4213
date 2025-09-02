@@ -15,7 +15,7 @@
 //Specific a certain rotation angle (0-180) for the servo
 void servoWrite(int pin, int angle){ 
     long time = 0;
-    time = 10 * (0.5 + angle/90); /* map the desired angle to time*/
+    time = 10 * (0.5 + double(angle)/90); /* map the desired angle to time*/
     softPwmWrite(pin,time);   
 }
 
