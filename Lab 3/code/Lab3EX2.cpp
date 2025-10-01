@@ -19,6 +19,10 @@ int main(){
 	JoystickEvent event;
 	unsigned int button;
 
+	int sp = 250;
+	int r = 500;
+	int b = 230;
+	int w = 1;
 	//The joystick creates events when a button or axis changes value.
 	//Sample event from the joystick: joystick.sample(&event)
 
@@ -35,28 +39,68 @@ int main(){
 		joystick input and use that input to move the Kobuki*/
 
 		//Use the following Key Map:
-		//Up     - move the Kobuki forward
-		//Down   - move the Kobuki backward
-		//Left   - rotate the Kobuki 90 degrees counterclockwise
-		//Right  - rotate the Kobuki 90 degrees clockwise
-		//Start  - immediately stop the Kobuki's movement
-		//Select - exit the script and close the Kobuki's connection cleanly
+		//Up     - move the Kobuki forward  --  isAxis, event.number = 7, event.value = -32767
+		//Down   - move the Kobuki backward  --  isAxis, event.number = 7, event.value = 32767
+		//Left   - rotate the Kobuki 90 degrees counterclockwise  --  isAxis, event.number = 6, event.value = -32767
+		//Right  - rotate the Kobuki 90 degrees clockwise  --  isAxis, event.number = 6, event.value = 32767
+		//Start  - immediately stop the Kobuki's movement  --  isButton, event.number = 7, event.value = 1
+		//Select - exit the script and close the Kobuki's connection cleanly  --  isButton, event.number = 8, event.value = 1
 		if (joystick.sample(&event))
 		{
 			if (event.isButton())
 			{
 				printf("isButton: %u | Value: %d\n", event.number, event.value);
 				/*Interpret the joystick input and use that input to move the Kobuki*/
-
-
+				if (event.number == 7 && event.value == 1){
+					movement(0, 0);
+					cout<<"stopping";
+				}
+				if (event.number == 8 && event.value == 1){
+					serialClose(kobuki);
+					cout<<"closing connection";
+					return(0);
+				}
 			}
 			if (event.isAxis())
 			{
 				printf("isAxis: %u | Value: %d\n", event.number, event.value);
 				/*Interpret the joystick input and use that input to move the Kobuki*/
-
-
-				
+				if (event.number == 7 && event.value < 0){
+					while(true){
+						cout<<"forward";
+						movement(sp, 0); // Straight movement
+						if (joystick.sample(&event)){
+							break;
+						}
+					}
+				}
+				else if (event.number == 7 && event.value > 0){
+					while(true){
+						cout<<"backward";
+						movement(-sp, 0); // Straight movement
+						if (joystick.sample(&event)){
+							break;
+						}
+					}
+				}
+				else if (event.number == 6 && event.value < 0){
+					while(true){
+						cout<<"right";
+						movement(w*b/2, 1); // Small radius for rotation
+						if (joystick.sample(&event)){
+							break;
+						}
+					}
+				}
+				else if (event.number == 6 && event.value > 0){
+					while(true){
+						cout<<"left";
+						movement(-w*b/2, 1); // Small radius for rotation
+						if (joystick.sample(&event)){
+							break;
+						}
+					}
+				}
 			}
 		}
 
