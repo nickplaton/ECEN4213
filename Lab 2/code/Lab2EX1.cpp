@@ -1,3 +1,6 @@
+// Exercise 1
+// Thomas Parsley and Nick Platon
+
 //Use g++ -std=c++11 -o Lab2EX1 Lab2EX1.cpp -lwiringPi
 
 #include <iostream>
@@ -17,11 +20,16 @@ int main(){
 		/*Set the pinMode to output and generate a LOW-HIGH-LOW signal using "digitalWrite" to trigger the sensor. 
 		Use a 2 us delay between a LOW-HIGH and then a 5 us delay between HIGH-LOW. You can use
 		the function "usleep" to set the delay. The unit of usleep is microsecond. */
+		
+		// First set as output
 		pinMode(1, OUTPUT);
+		// Generate LOW and wait
         digitalWrite(1,LOW);
 		usleep(2);
+		// Generate HIGH and wait
         digitalWrite(1,HIGH);
 		usleep(5);
+		// Generate LOW and wait
         digitalWrite(1,LOW);
 
 		/*Echo holdoff delay 750 us*/
@@ -54,7 +62,7 @@ int main(){
 
 
 		/*Print the distance.*/
-		printf("\033c");
+		printf("\033c"); // Clear output window (may only work on raspi)
 		cout<<"Distance: "<<d<<"cm"<<endl;
 
 

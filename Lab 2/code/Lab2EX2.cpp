@@ -1,3 +1,6 @@
+// Exercise 2
+// Thomas Parsley and Nick Platon
+
 //Use g++ -std=c++11 -o Lab2EX2 Lab2EX2.cpp -lwiringPi
 
 #include <iostream>
@@ -36,6 +39,7 @@ int time_inter_ms = 23; // time interval, you can use different time interval
 /*set your pin numbers and pid values*/
 int motor_pin = 26;
 int sonar_pin = 1;
+// kp and kd are negative because higher distance values (from the top) require greater power delivered to the fan
 float kp = -9;
 float ki = 0;
 float kd = -10;
@@ -60,7 +64,7 @@ int main(){
     value.it_interval.tv_usec = time_inter_ms*1000;
     setitimer(ITIMER_REAL, &value, &ovalue);    
 
-	while(true){
+	while(true){ // Print out information used to verify/debug PID controller
         cout<<"obj_value: "<<obj_value<<" measured_value: "<<measured_value<<endl;
         cout<<"PID_p: "<<PID_p<<endl;
         cout<<"PID_i: "<<PID_i<<endl;
@@ -70,7 +74,7 @@ int main(){
 	}
 }
 
-
+// Just runs PID
 void sigroutine(int signo){
     PID(kp, ki, kd);
     return;
@@ -106,6 +110,7 @@ void PID(float kp, float ki, float kd){
 your code in EX1.*/
 float read_sonar()
 {
+    // Same process as Exercise 1: output LOW-HIGH-LOW, delay, then read from same pin
     pinMode(sonar_pin, OUTPUT);
     digitalWrite(sonar_pin,LOW);
     usleep(2);
@@ -150,9 +155,11 @@ float read_potentionmeter()
     /* read ADS1015 value */
     int reading = adcVal();
     // segmenting
-    reading += 2048;
-    if (reading >= 4096) reading -= 4096;
-    float distance = 0;
+    // set reading to a range from ~1600 to 4095
+    reading += 2048; // shift up to max 4095
+    if (reading >= 4096) reading -= 4096; // numbers that overflow are dropped down
+    float distance = 0; // don't remember why I declared it on a different line
+    // Convert from a 4096 integer scale to an 80cm scale
     distance = float(reading) * 80/4096;
     distance = 80-((distance - 32)/48 * 80);
     distance += 10; // Convert 0-80cm range to 10-90cm
@@ -160,7 +167,7 @@ float read_potentionmeter()
 }
 
 
-
+// Code here should be completely identical to Lab 1 adc code
 int adcVal(){
 	uint16_t low, high, value;
 	wiringPiI2CWriteReg16(adc, 0x01, 0xC182);
