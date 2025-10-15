@@ -1,3 +1,6 @@
+// Exercise 2
+// Thomas Parsley and Nick Platon
+
 //Use g++ joystick.cc -std=c++11 -o Lab3EX2 Lab3EX2.cpp -lwiringPi
 
 #include <iostream>

@@ -1,3 +1,5 @@
+// Exercise 3B-Bonus
+// Thomas Parsley and Nick Platon
 
 //Use g++ joystick.cc -std=c++11 -o Lab3BonusB Lab3BonusB.cpp
 

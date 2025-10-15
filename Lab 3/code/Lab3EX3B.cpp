@@ -1,3 +1,6 @@
+// Exercise 3B
+// Thomas Parsley and Nick Platon
+
 //Use g++ joystick.cc -std=c++11 -o Lab3EX3B Lab3EX3B.cpp
 
 #include <stdio.h>

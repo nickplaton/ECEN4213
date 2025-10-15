@@ -1,3 +1,6 @@
+// Exercise 3A
+// Thomas Parsley and Nick Platon
+
 //Use g++ -std=c++11 -o Lab3EX3A Lab3EX3A.cpp -lwiringPi
 
 #include <iostream>
