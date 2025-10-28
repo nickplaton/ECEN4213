@@ -1,5 +1,7 @@
-//use g++ -std=c++11 -o Lab4EX2 Lab4EX2.cpp -lwiringPi
+// Exercise 2
+// Thomas Parsley and Nick Platon
 
+//use g++ -std=c++11 -o Lab4EX2 Lab4EX2.cpp -lwiringPi
 
 #include <iostream>
 #include <unistd.h>

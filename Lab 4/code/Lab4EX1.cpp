@@ -1,3 +1,6 @@
+// Exercise 1
+// Thomas Parsley and Nick Platon
+
 //Use g++ -std=c++11 -o Lab4EX1 Lab4EX1.cpp -lwiringPi
 
 #include <string>
