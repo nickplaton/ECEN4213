@@ -67,15 +67,15 @@ int main(){
 	while(serialDataAvail(kobuki) != -1)
 	{
 		// Read the sensor data.
-
+		readData();
 
 		// Construct an string data like 'b0c0d0', you can use "sprintf" function. You can also define your own data protocal.
-
+		char sensor_data[] = sprintf("%h%h%h", bumper, drop, cliff);
 
 		// Send the sensor data through the socket
-
+		send(sock, data, sizeof(data), 0);
 		// Clear the buffer
-
+		serialFlush(kobuki);
 		// You can refer to the code in previous labs. 
 	}
 	serialClose(kobuki);

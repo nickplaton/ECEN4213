@@ -41,6 +41,8 @@ void readData();
 
 void read_socket(){
 	char buffer[100];
+	int sp = 0;
+	int r = 0;
 	while(1){
 		read(sock , buffer, 50);
 		/*Print the data to the terminal*/
@@ -48,10 +50,30 @@ void read_socket(){
 		printf("received: %c\n",cmd);
 
 		// use cmd to control the robot movement
-
+		if (cmd == 0x75){
+			sp = 0;
+			r = 0;
+		}
+		else if (cmd == 0x6c){
+			sp = 230/2;
+			r = 1;
+		}
+		else if (cmd == 0x73) {
+			sp = 0;
+			r = 0;
+		}
+		else if (cmd == 0x72) {
+			sp = -230/2;
+			r = 1;
+		}
+		else if (cmd == 0x64){
+			sp = -100;
+			r = 0;
+		}
+		movement(sp, r);
 		
 		//clean the buffer with memset
-		
+		memset(&buffer, '0', sizeof(buffer));
 	}
 	
 }

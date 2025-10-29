@@ -28,9 +28,10 @@ connection, address = sock.accept()
 
 #Find the IP Address of your device
 #Use the 'ifconfig' terminal command, the address should be in the format  "XX.XXX.XXX.XXX"
-IP_Address = 'XX.XXX.XXX.XXX'
+IP_Address = '10.227.74.139'
 PORT = 8080
 #Connect the *.html page to the server and run as the default page
+sensor_data = ''
 
 
 @app.route('/')
@@ -38,7 +39,7 @@ def index():
     if request.headers.get('accept') == 'text/event-stream':
         def events():
             for i, c in enumerate(itertools.cycle('\|/-')):
-                yield "data: %s\n\n" % ('b0c0d0')
+                yield "data: %s\n\n" % (sensor_data)
         return Response(events(), content_type='text/event-stream')
     return render_template('FinalEXE3.html')
 

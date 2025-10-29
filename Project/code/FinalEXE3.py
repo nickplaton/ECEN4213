@@ -20,7 +20,7 @@ sock_1.bind(server_address_1)
 
 #Find the IP Address of your device
 #Use the 'ifconfig' terminal command, the address should be in the format  "XX.XXX.XXX.XXX"
-IP_Address = 'XX.XXX.XXX.XXX'
+IP_Address = '10.227.74.139'
 PORT = 8080
 #Connect the *.html page to the server and run as the default page
 
@@ -49,7 +49,7 @@ def index():
 
 def gen(camera):
     max_len = 65507
-    frame = ''
+    frame = b''
     while True:
         # receive image to the client: frame,_ = .....
         frame,_ = sock_1.recvfrom(max_len)
@@ -69,9 +69,24 @@ def UpFunction():
     return "Nothing"
 
 # define the rest of the functions to handle the left, right, down and stop buttons (4 functions)
-@app.route('/function_name')
-def function_name():
-    print('In XXFunction')
+@app.route('/LeftFunction')
+def LeftFunction():
+    print('In LeftFunction')
+    return "Nothing"
+
+@app.route('/StopFunction')
+def StopFunction():
+    print('In StopFunction')
+    return "Nothing"
+
+@app.route('/RightFunction')
+def RightFunction():
+    print('In RightFunction')
+    return "Nothing"
+
+@app.route('/DownFunction')
+def DownFunction():
+    print('In DownFunction')
     return "Nothing"
 
 
