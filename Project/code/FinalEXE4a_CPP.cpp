@@ -51,7 +51,7 @@ void read_socket(){
 
 		// use cmd to control the robot movement
 		if (cmd == 0x75){
-			sp = 0;
+			sp = 100;
 			r = 0;
 		}
 		else if (cmd == 0x6c){

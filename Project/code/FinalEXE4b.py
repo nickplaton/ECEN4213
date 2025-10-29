@@ -47,10 +47,10 @@ def index():
     
 def gen(camera):
     max_len = 65507
-    frame = ''
+    frame = b''
     while True:
-        # receive image to the client: frame = .....
-
+        # receive image to the client: frame,_ = .....
+        frame,_ = sock_1.recvfrom(max_len)
         yield (b'--frame\r\n'
             b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
