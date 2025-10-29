@@ -31,7 +31,7 @@ connection, address = sock.accept()
 IP_Address = '10.227.74.139'
 PORT = 8080
 #Connect the *.html page to the server and run as the default page
-sensor_data = ''
+sensor_data = 'b0c0d0'
 
 
 @app.route('/')
@@ -79,10 +79,31 @@ def UpFunction():
     return "None"
 
 # define the rest of the functions to handle the left, right, down and stop buttons (4 functions)
-@app.route('/function_name')
-def function_name():
-    print('In XXFunction')
-    cmd = 'XXXXX'
+@app.route('/LeftFunction')
+def LeftFunction():
+    print('In LeftFunction')
+    cmd = 'l'
+    connection.send(cmd.encode('utf-8'))  
+    return "None"
+
+@app.route('/StopFunction')
+def StopFunction():
+    print('In StopFunction')
+    cmd = 's'
+    connection.send(cmd.encode('utf-8'))  
+    return "None"
+
+@app.route('/RightFunction')
+def RightFunction():
+    print('In RightFunction')
+    cmd = 'r'
+    connection.send(cmd.encode('utf-8'))  
+    return "None"
+
+@app.route('/DownFunction')
+def DownFunction():
+    print('In DownFunction')
+    cmd = 'd'
     connection.send(cmd.encode('utf-8'))  
     return "None"
 
