@@ -93,10 +93,11 @@ int main(){
 
 		// Construct an string data like 'b0c0d0', you can use "sprintf" function. You can also define your own data protocal.
 		char sensor_data[7];
-		sprintf("b%dc%dd%d", bumper, cliff, drop);
+		sprintf(sensor_data, "b%dc%dd%d", bumper, cliff, drop);
+		cout<<sensor_data<<endl;
 
 		// Send the sensor data through the socket
-		send(sock, data, sizeof(data), 0);
+		send(sock, sensor_data, sizeof(sensor_data), 0);
 		// Clear the buffer
 		serialFlush(kobuki);
 		// You can refer to the code in previous labs. 

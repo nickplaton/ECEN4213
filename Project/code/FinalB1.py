@@ -30,7 +30,7 @@ connection, address = sock.accept()
 
 #Find the IP Address of your device
 #Use the 'ifconfig' terminal command, the address should be in the format  "XX.XXX.XXX.XXX"
-IP_Address = 'XX.XXX.XXX.XXX'
+IP_Address = '10.227.11.85'
 PORT = 8080
 #Connect the *.html page to the server and run as the default page
 
@@ -51,18 +51,21 @@ def launch_socket_server(connection, address ):
     global info, frame
     print('Listening...')
     a='b0c0d0'
-    while True:        
+    while True:
         info = connection.recv(6).decode("utf-8")
-        if info != a and len(info)>0:
-            a = info
+        print('info:', info)
+        if info != sensor_data and len(info) == 6:
+            sensor_data = info
+        print(sensor_data)
 
 
 
 def gen(camera):
     max_len = 65507
+    frame = b''
     while True:
-        # receive image to the client: frame = .....
-        
+        # receive image to the client: frame,_ = .....
+        frame,_ = sock_1.recvfrom(max_len)
         yield (b'--frame\r\n'
             b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 

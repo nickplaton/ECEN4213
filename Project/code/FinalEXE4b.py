@@ -28,7 +28,7 @@ connection, address = sock.accept()
 
 #Find the IP Address of your device
 #Use the 'ifconfig' terminal command, the address should be in the format  "XX.XXX.XXX.XXX"
-IP_Address = '10.227.74.139'
+IP_Address = '10.227.11.85'
 PORT = 8080
 #Connect the *.html page to the server and run as the default page
 sensor_data = 'b0c0d0'
@@ -40,6 +40,7 @@ def index():
         def events():
             for i, c in enumerate(itertools.cycle('\|/-')):
                 yield "data: %s\n\n" % (sensor_data)
+                #print("stink", sensor_data)
         return Response(events(), content_type='text/event-stream')
     return render_template('FinalEXE3.html')
 
@@ -61,14 +62,15 @@ def video_feed():
 
 
 def launch_socket_server(connection):
-    global info, frame
+    global sensor_data, info, frame
     print('Listening...')
-    a='b0c0d0'
-    while True:        
+    empty = 'b0c0d0'
+    while True:
         info = connection.recv(6).decode("utf-8")
         print('info:', info)
-        if info != a and len(info)>0:
-            a = info
+        if info != sensor_data and len(info) == 6:
+            sensor_data = info
+        print(sensor_data)
 
 
 @app.route('/UpFunction')

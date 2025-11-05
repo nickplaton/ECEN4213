@@ -47,16 +47,45 @@ void read_socket(){
 		read(sock , buffer, 50);
 		/*Print the data to the terminal*/
 		cmd = buffer[0];
-		printf("received: %c\n",cmd);
+		//printf("received: %c\n",cmd);
+		cout<<buffer<<endl;
 
 		// parse xpos and ypos from the buffer
+		int i=7;
+		bool xflag = false;
+		char x_str[5];
+		char y_str[5];
+		int y_start = 0;
+		int tick_count = 0;
+		do{
+			if (!xflag){
+				//cout<<buffer[i]<<endl;
+				//cout<<(buffer[i]=='\'')<<endl;
+				if (buffer[i] == '\''){
+					xflag = true;
+					x_str[i-7] = '\0';
+				}
+				else x_str[i-7] = buffer[i];
+				//cout<<x_str<<endl;
+			}
+			else if (y_start != 0){
+				if (buffer[i] == '\'') tick_count++;
+				if (tick_count == 3) y_start = i+1;
+			}
+			else{
+				if (buffer[i] != '\'') y_str[i-y_start] = buffer[i];
+			}
+			i++;
+		}while (buffer[i] != '}');
+		cout<<x_str[0]<<x_str[1]<<x_str[2]<<x_str[3]<<x_str[4]<<endl;
+		//printf("x: %s, y: %s\n", x_str, "apple!");
 
 
 		// use xpos and ypos to control the robot movement
 
 		
 		//clean the buffer
-		
+		memset(&buffer, '0', sizeof(buffer));
 	}
 	
 }
@@ -72,15 +101,16 @@ int main(){
 	while(serialDataAvail(kobuki) != -1)
 	{
 		// Read the sensor data.
-
+		readData();
 
 		// Construct an string data like 'b0c0d0', you can use "sprintf" function. You can also define your own data protocal.
-
+		char sensor_data[7];
+		sprintf(sensor_data, "b%dc%dd%d", bumper, cliff, drop);
 
 		// Send the sensor data through the socket
-
+		send(sock, sensor_data, sizeof(sensor_data), 0);
 		// Clear the buffer
-
+		serialFlush(kobuki);
 		// You can refer to the code in previous labs. 
 	}
 	serialClose(kobuki);
