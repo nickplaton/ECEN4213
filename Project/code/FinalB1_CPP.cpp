@@ -40,6 +40,10 @@ void readData();
 int joystick_x(string); // this function can parse the received buffer and return the radius value
 int joystick_y(string); // this function can parse the received buffer and return the speed value
 
+int sp = 250;
+int r = 500;
+int b = 230;
+int w = 1;
 
 void read_socket(){
 	char buffer[100];
@@ -48,41 +52,40 @@ void read_socket(){
 		/*Print the data to the terminal*/
 		cmd = buffer[0];
 		//printf("received: %c\n",cmd);
-		cout<<buffer<<endl;
+		//cout<<buffer<<endl;
 
 		// parse xpos and ypos from the buffer
-		int i=7;
-		bool xflag = false;
-		char x_str[5];
-		char y_str[5];
-		int y_start = 0;
-		int tick_count = 0;
-		do{
-			if (!xflag){
-				//cout<<buffer[i]<<endl;
-				//cout<<(buffer[i]=='\'')<<endl;
-				if (buffer[i] == '\''){
-					xflag = true;
-					x_str[i-7] = '\0';
-				}
-				else x_str[i-7] = buffer[i];
-				//cout<<x_str<<endl;
-			}
-			else if (y_start != 0){
-				if (buffer[i] == '\'') tick_count++;
-				if (tick_count == 3) y_start = i+1;
-			}
-			else{
-				if (buffer[i] != '\'') y_str[i-y_start] = buffer[i];
-			}
-			i++;
-		}while (buffer[i] != '}');
-		cout<<x_str[0]<<x_str[1]<<x_str[2]<<x_str[3]<<x_str[4]<<endl;
-		//printf("x: %s, y: %s\n", x_str, "apple!");
+		char x_str[5] = {0};
+		char y_str[5] = {0};
+		
+		const char* x_ptr = strstr(buffer, "'x': '");
+		const char* y_ptr = strstr(buffer, "'y': '");
+		
+		if (x_ptr) {
+			x_ptr += 6; // move past "'x': '"
+			const char* end = strchr(x_ptr, '\'');
+			if (end) strncpy(x_str, x_ptr, end - x_ptr);
+		}
+		
+		if (y_ptr) {
+			y_ptr += 6; // move past "'y': '"
+			const char* end = strchr(y_ptr, '\'');
+			if (end) strncpy(y_str, y_ptr, end - y_ptr);
+		}
+		
+		printf("x      = %s\n", x_str);
+		printf("y      = %s\n", y_str);
 
 
 		// use xpos and ypos to control the robot movement
-
+		//int speed, radius = 0;
+		//speed = sp*(float(y_str)/100);
+		int speed = sp * (std::stof(y_str) / 100.0f);
+		int radius = 500-abs(499*(std::stof(x_str)/100.0f));
+		if (radius == 500) radius = 0;
+		printf("speed  = %d\n", speed);
+		printf("radius = %d\n", radius);
+		movement(sp, r);
 		
 		//clean the buffer
 		memset(&buffer, '0', sizeof(buffer));
