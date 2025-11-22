@@ -1,0 +1,48 @@
+
+
+<html>
+  <head>
+    <title>ECEN4213 IoT</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+    
+    <!--<script src="../static/parse_data.js"></script>-->
+
+
+    <!-- callback function for the upbutton pushing event -->
+    <!-- <script type=text/javascript> $(function() { $("#upbutton").click(function (event) { $.getJSON('/UpFunction', { },
+    function(data) { }); return false; }); }); </script>--> 
+
+    <!-- add four more functions for the left, right, down and stop buttons -->
+    <!-- <script type=text/javascript> $(function() { $("#leftbutton").click(function (event) { $.getJSON('/LeftFunction', { },
+    function(data) { }); return false; }); }); </script>
+
+    <script type=text/javascript> $(function() { $("#stopbutton").click(function (event) { $.getJSON('/StopFunction', { },
+    function(data) { }); return false; }); }); </script>
+
+    <script type=text/javascript> $(function() { $("#rightbutton").click(function (event) { $.getJSON('/RightFunction', { },
+    function(data) { }); return false; }); }); </script>
+
+    <script type=text/javascript> $(function() { $("#downbutton").click(function (event) { $.getJSON('/DownFunction', { },
+    function(data) { }); return false; }); }); </script>-->
+
+
+
+
+    <style>
+		body {
+			text-align: center;
+		}
+    </style>
+  </head>
+
+  <body>
+
+    <!-- image display module -->
+    <h1>Live Streaming</h1>
+    <img src="/video_feed" height="35%">
+
+    <hr>
+
+</body>
+</html>
